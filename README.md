@@ -1,5 +1,11 @@
-# Gmail Intelligent Academic Email Rranking Extension
-
+<h1 align="center">
+Gmail Intelligent Academic Email Ranking Extension
+</h1>
+<p align="center">
+<b>Author:</b> Aashi Tiwari
+</p>
+<br>
+</br>
 <p align="center">
 AI-powered system that <b>detects the intent of academic emails</b> and <b>dynamically ranks them by urgency directly inside Gmail</b>.
 </p>
@@ -23,9 +29,14 @@ AI-powered system that <b>detects the intent of academic emails</b> and <b>dynam
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black">
 
 </p>
+<br>
+</br>
 
-
-Instead of simply categorizing emails like traditional inbox filters, this system **reorders emails based on predicted urgency**, helping users immediately see the most critical messages.
+<p align="center">
+Instead of simply categorizing emails like traditional inbox filters, this system <b>reorders emails based on predicted urgency</b>, helping users immediately see the most critical messages.
+</p>
+<br>
+</br>
 
 ---
 
@@ -230,3 +241,12 @@ Aashi Tiwari
 ## License
 
 MIT License
+
+---
+
+© 2026 Aashi Tiwari
+
+This repository demonstrates the implementation of an intelligent academic email ranking system.  
+The dataset, trained models, and experimental configurations used during development are not publicly distributed.
+
+All intellectual contributions, system design, and implementation are the work of the author.
