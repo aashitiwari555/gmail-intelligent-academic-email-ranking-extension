@@ -1,3 +1,5 @@
+import os
+import gdown
 from fastapi import FastAPI
 import joblib
 from sentence_transformers import SentenceTransformer
@@ -18,6 +20,26 @@ app.add_middleware(
 class EmailRequest(BaseModel):
     email_text: str
 
+# Create models directory if it doesn't exist
+os.makedirs("models", exist_ok=True)
+
+# Google Drive file IDs
+FILES = {
+    "intent_model.pkl": "1CRIhlrWcWDLFpxinMm3XomH_6-gA-Trr",
+    "intent_vectorizer.pkl": "1MrHoA4vwgtUCiCkYgzG15h8xqLcAGIcL",
+    "priority_model.pkl": "1cf_tPyXNVe0NPRyLPx3us8Db1v72ctOq",
+    "intent_encoder.pkl": "1vxhCPel-MkVHpcuDG8QkAXpnzwKY1mc-"
+}
+
+# Download models if they don't exist
+for filename, file_id in FILES.items():
+    filepath = f"models/{filename}"
+    
+    if not os.path.exists(filepath):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        print(f"Downloading {filename}...")
+        gdown.download(url, filepath, quiet=False)
+        
 # Load ML models
 intent_model = joblib.load("models/intent_model.pkl")
 intent_vectorizer = joblib.load("models/intent_vectorizer.pkl")
@@ -53,4 +75,5 @@ def predict(request: EmailRequest):
     return {
         "intent": intent_label,
         "urgency_score": float(urgency_score)
+
     }
