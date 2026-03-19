@@ -5,7 +5,8 @@
   "description": "Sort Gmail emails based on urgency using ML",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": [
-    "http://127.0.0.1:8000/*"
+    "http://127.0.0.1:8000/*",
+    "http://*/*"
   ],
   "content_scripts": [
     {
