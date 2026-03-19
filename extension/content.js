@@ -7,54 +7,52 @@ async function processEmails() {
 
     for (let row of emailRows) {
 
-        let subjectElement = row.querySelector(".bog");
+    if (row.dataset.processed === "true") continue;
 
-        if (!subjectElement) continue;
+    let subjectElement = row.querySelector(".bog");
 
-        let emailText = subjectElement.innerText;
+    if (!subjectElement) continue;
 
-        try {
-            // Local FastAPI backend used for ML predictions
-            let response = await fetch("http://127.0.0.1:8000/predict", {
+    if (subjectElement.querySelector(".ai-tag")) continue;
 
-                method: "POST",
+    let emailText = subjectElement.innerText;
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+    try {
+        let response = await fetch("http://127.0.0.1:8000/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email_text: emailText
+            })
+        });
 
-                body: JSON.stringify({
-                    email_text: emailText
-                })
+        let data = await response.json();
 
-            });
+        let intentTag = document.createElement("span");
+        intentTag.innerText = "[" + data.intent + "] ";
+        intentTag.style.color = "blue";
+        intentTag.style.fontWeight = "bold";
+        intentTag.classList.add("ai-tag");
 
-            let data = await response.json();
+        subjectElement.prepend(intentTag);
 
-            console.log("Prediction:", data);
-
-            // add intent label
-            let intentTag = document.createElement("span");
-            intentTag.innerText = "[" + data.intent + "] ";
-            intentTag.style.color = "blue";
-            intentTag.style.fontWeight = "bold";
-
-            subjectElement.prepend(intentTag);
-
-            // highlight urgent emails
-            if(data.urgency_score > 1.5){
-                row.style.backgroundColor = "#ffdddd";
-            }
-
-            emailData.push({
-                row: row,
-                score: data.urgency_score
-            });
-
-        } catch(err) {
-            console.error(err);
+        if (data.priority === "High"){
+            row.style.backgroundColor = "#ffdddd";
         }
+
+        row.dataset.processed = "true";
+
+        emailData.push({
+            row: row,
+            score: data.urgency_score
+        });
+
+    } catch(err) {
+        console.error(err);
     }
+}
 
     // sort by urgency score
     emailData.sort((a,b) => b.score - a.score);
