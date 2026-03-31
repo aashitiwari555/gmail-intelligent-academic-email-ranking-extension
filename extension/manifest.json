@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Smart Gmail Sorter",
+  "name": "Rushuffle",
   "version": "1.0",
   "description": "Sort Gmail emails based on urgency using ML",
   "permissions": ["activeTab", "scripting"],
